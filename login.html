@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="./storage/libraries/turtleui/turtleui.min.css">
+</head>
+
+<body>
+	<nav class="navbar">
+		<div class="navbar-brand">
+			smtdfc
+		</div>
+		<div class="btn" data-action="toggle-offcanvas" data-offcanvas="#offcanvas1">Settings</div>
+	</nav>
+	<br><br><br><br><br>
+	<div class="offcanvas offcanvas-right" style="transition: 0.2s;" id="offcanvas1">
+		<div class="offcanvas-header">
+			<h2 class="offcanvas-title">Settings</h2>
+			<button class="offcanvas-close-btn icon icon-close" data-action="toggle-offcanvas" data-offcanvas="#offcanvas1"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div class="p-10 d-flex align-items-center">
+				<label class="switch">
+					<input type="checkbox" id="dark-mode">
+					<span class="switch-slider"></span>
+				</label>
+				<label class="ml-5">Dark Mode</label>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="d-none note note-danger" id="login-note"></div>
+		<form action="#" id="form-login" class="form d-flex flex-flow-col align-items-center text-align-center" style="min-width: 250px;">
+			<h1>Login</h1>
+			<div class="field">
+				<input type="text" class="form-input" style="width: 260px;" placeholder="Username" required>
+			</div><br>
+			<div class="field">
+				<input type="password" class="form-input" style="width: 260px;" placeholder="Password" required>
+			</div><br>
+			<div class="text-align-center">
+				<button class="btn btn-primary" id="login-btn">Login</button>
+				<br><br>
+				Do not have an account? <a class="link" href="./register.html?redirect=login.html" >Register </a>
+			</div>
+		</form>
+
+	</div>
+
+	<script src="./storage/libraries/turtle/turtle.min.js"></script>
+	<script src="./storage/libraries/turtleui/turtleui.min.js"></script>
+	<script src="./scripts/core.js"></script>
+	<script src="./scripts/pages/auth.js"></script>
+</body>
+
+</html>
