@@ -11,6 +11,18 @@
 </head>
 
 <body>
+	<style>
+		.alert-group {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			z-index: 20000;
+		}
+
+		.alert-group>* {
+			margin-top: 5px;
+		}
+	</style>
 	<nav class="navbar">
 		<div class="navbar-brand">
 			smtdfc
@@ -34,11 +46,12 @@
 		</div>
 	</div>
 	<div>
+
 		<div class="d-none note note-danger" id="login-note"></div>
 		<form action="#" id="form-login" class="form d-flex flex-flow-col align-items-center text-align-center" style="min-width: 250px;">
 			<h1>Login</h1>
 			<div class="field">
-				<input type="text" class="form-input" style="width: 260px;" placeholder="Username" required>
+				<input type="text" id="username" class="form-input" style="width: 260px;" placeholder="Username" required>
 			</div><br>
 			<div class="field">
 				<input type="password" class="form-input" style="width: 260px;" placeholder="Password" required>
@@ -46,12 +59,13 @@
 			<div class="text-align-center">
 				<button class="btn btn-primary" id="login-btn">Login</button>
 				<br><br>
-				Do not have an account? <a class="link" href="./register.html?redirect=login.html" >Register </a>
+				Do not have an account? <a class="link" href="./register.html">Register </a>
 			</div>
 		</form>
-
 	</div>
+<div class="alert-group" id="alert">
 
+</div>
 	<script src="./storage/libraries/turtle/turtle.min.js"></script>
 	<script src="./storage/libraries/turtleui/turtleui.min.js"></script>
 	<script src="./scripts/core.js"></script>

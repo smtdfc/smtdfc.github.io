@@ -1,6 +1,7 @@
-const configs={
-	base:"https://glen-oasis-approach.glitch.me"
+const configs = {
+	base: "https://glen-oasis-approach.glitch.me"
 }
+
 function getParameterByName(name, url = window.location.href) {
 	name = name.replace(/[\[\]]/g, '\\$&');
 	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -32,45 +33,15 @@ class CookieManager {
 		}
 		return null;
 	}
-	
+
 	static eraseCookie(name) {
 		document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	}
 }
 
 class Authentication {
-	static async login(username, password){
-		let res = await fetch(`${configs.base}/auth/login`,{
-			method:"post",
-			body:JSON.stringify({
-				username:username,
-				password:password,
-				device:{
-					userAgent:window.navigator.userAgent
-				}
-			})
-		})
-		
-		let results = await res.json()
-		if(res.ok && results.status == "success"){
-			let tokens = results.tokens
-			CookieManager.setCookie("at",tokens.accessToken)
-			CookieManager.setCookie("rt",tokens.refreshToken)
-			return {results}
-		}else{
-			if(!res.ok){
-				throw {
-					err:"Unable to send request to server !"
-				}
-			}else{
-				throw{
-					err:results.err
-				}
-			}
-		}
-	}
-	static async register(username, password) {
-		let res = await fetch(`${configs.base}/auth/register`, {
+	static async login(username, password) {
+		let res = await fetch(`${configs.base}/auth/login`, {
 			method: "post",
 			body: JSON.stringify({
 				username: username,
@@ -80,10 +51,12 @@ class Authentication {
 				}
 			})
 		})
-	
+
 		let results = await res.json()
 		if (res.ok && results.status == "success") {
-			
+			let tokens = results.tokens
+			CookieManager.setCookie("at", tokens.accessToken)
+			CookieManager.setCookie("rt", tokens.refreshToken)
 			return { results }
 		} else {
 			if (!res.ok) {
@@ -97,22 +70,23 @@ class Authentication {
 			}
 		}
 	}
-	static async info(username, password) {
-		let headers = {}
-		if(CookieManager.getCookie("at") != null){
-			headers = {
-				"Authorization": `B ${CookieManager.getCookie("at")}`
-			}
-		}
-		let res = await fetch(`${configs.base}/auth/info`, {
+
+	static async register(username, password) {
+		let res = await fetch(`${configs.base}/auth/register`, {
 			method: "post",
-			headers:headers
+			body: JSON.stringify({
+				username: username,
+				password: password,
+				device: {
+					userAgent: window.navigator.userAgent
+				}
+			})
 		})
-	
+
 		let results = await res.json()
 		if (res.ok && results.status == "success") {
-			
-			return results.info
+
+			return { results }
 		} else {
 			if (!res.ok) {
 				throw {
@@ -123,6 +97,83 @@ class Authentication {
 					err: results.err
 				}
 			}
+		}
+	}
+
+	static async info(username, password) {
+		let headers = {}
+		if (CookieManager.getCookie("at") != null) {
+			headers = {
+				"Authorization": `B ${CookieManager.getCookie("at")}`
+			}
+		}
+		let res = await fetch(`${configs.base}/auth/info`, {
+			method: "post",
+			headers: headers
+		})
+
+		let results = await res.json()
+		if (res.ok && results.status == "success") {
+			return results.info
+		} else {
+			if (!res.ok) {
+				throw {
+					err: "Unable to send request to server !"
+				}
+			} else {
+				let res = await this.checkErrAndRetry(results.err, this.info)
+				if (!res.success) {
+					return null
+				} else {
+					return null
+				}
+			}
+		}
+	}
+
+	static async getNewToken() {
+		let res = await fetch(`${configs.base}/auth/newToken`, {
+			method: "post",
+			body: JSON.stringify({
+				refreshToken: CookieManager.getCookie("rt")
+			})
+		})
+
+		let results = await res.json()
+		if (res.ok && results.status == "success") {
+			let tokens = results.tokens
+			CookieManager.setCookie("at", tokens.accessToken)
+			CookieManager.setCookie("rt", tokens.refreshToken)
+			return { results }
+		} else {
+			if (!res.ok) {
+				throw {
+					err: "Unable to send request to server !"
+				}
+			} else {
+				throw {
+					err: res.err
+				}
+			}
+		}
+	}
+	
+	static async checkErrAndRetry(err, callback, ...args) {
+		let res = {
+			success: false,
+			data: null
+		}
+		try {
+			if (["Token Error", "Authentication Error"].includes(err.name)) {
+				await this.getNewToken()
+			}
+
+			res.data = await callback(...args)
+			res.success = true
+			return res
+		} catch (e) {
+			res.success = false
+			return res
 		}
 	}
 }

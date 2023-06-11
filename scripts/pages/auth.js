@@ -2,6 +2,7 @@ let selector = new Turtle.Selector()
 let theme = new Turtle.Storage("theme")
 let redirect = getParameterByName("redirect")
 
+selector.byId("username").val = getParameterByName("user") ?? ""
 selector.byId("dark-mode").on("change", async function(event) {
 	let value = event.target.checked
 	if (value) {
@@ -26,6 +27,17 @@ selector.byId("form-login").on("submit", async function(event) {
 	Authentication.login(username, password)
 		.then((results) => {
 			selector.byQuery(".overlay.main").classList.add("active")
+			selector.byQuery(".overlay.main").HTML = `
+					<div class="mt-75 d-flex justify-content-center"  >
+						<div class="dot-loader">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+					
+					`
 			if(redirect == null){
 				window.location = "./index.html"
 			}else{
@@ -35,7 +47,7 @@ selector.byId("form-login").on("submit", async function(event) {
 
 		.catch((err) => {
 			selector.byId("login-note").styles.display = "block"
-			selector.byId("login-note").text = err.err
+			selector.byId("login-note").text = err.err.message
 		})
 		
 		.finally(() => {
@@ -57,12 +69,32 @@ async function main() {
 	}
 	let data = await Authentication.info()
 	if(data != null){
+		selector.byId("alert").HTML =`
+			<div class="alert">
+				You are logged in 
+			</div>
+		`
+		
 		selector.byQuery(".overlay.main").classList.add("active")
-		if (redirect == null) {
-			window.location = "./index.html"
-		} else {
-			window.location = redirect
-		}
+		selector.byQuery(".overlay.main").HTML =`
+		<div class="mt-75 d-flex justify-content-center"  >
+			<div class="dot-loader">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		
+		`
+		setTimeout(()=>{
+			if (redirect == null) {
+				window.location = "./index.html"
+			} else {
+				window.location = redirect
+			}
+		},3000)
+		
 	}
 }
 

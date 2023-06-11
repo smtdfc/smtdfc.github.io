@@ -33,8 +33,19 @@ selector.byId("form-register").on("submit", async function(event) {
 	Authentication.register(username, password)
 		.then((results) => {
 			selector.byQuery(".overlay.main").classList.add("active")
+			selector.byQuery(".overlay.main").HTML = `
+					<div class="mt-75 d-flex justify-content-center"  >
+						<div class="dot-loader">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+					
+					`
 			if (redirect == null) {
-				window.location = "./index.html"
+				window.location = `./login.html?user=${username}`
 			} else {
 				window.location = redirect
 			}
@@ -42,7 +53,7 @@ selector.byId("form-register").on("submit", async function(event) {
 
 		.catch((err) => {
 			selector.byId("register-note").styles.display = "block"
-			selector.byId("register-note").text = err.err
+			selector.byId("register-note").text = err.err.message
 		})
 
 		.finally(() => {
