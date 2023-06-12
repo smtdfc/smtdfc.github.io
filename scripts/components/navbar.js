@@ -11,6 +11,12 @@ window.Turtle.createComponent("page-navbar", {
 			<button class="navbar-close-btn" data-action="toggle-navbar" data-navbar="#nav1"></button>
 			<ul class="navbar-items">
 				<li class="navbar-item"><a href="${BASE_LINK}">Home</a></li>
+				<li class="navbar-item">
+					<a href="#">Tools</a>
+					<ul class="navbar-subitems">
+						<li><a href="${BASE_LINK}/webtool.html" >Web Tool</a></li>
+					</ul>
+				</li>
 			</ul>
 			<div ref="login-btn" class="d-flex d-none justify-content-center">
 				<a class="btn" href="${BASE_LINK}/login.html ">Login</a>
@@ -48,14 +54,15 @@ window.Turtle.createComponent("page-navbar", {
 		`
 	},
 	onRender: async function(arg) {
-		let data = await Authentication.info()
-		if (!data) {
-
-			this.ref("login-btn").classList.remove("d-none")
-		} else {
-			this.ref("dropdown1").classList.remove("d-none")
-			this.ref("username").text = data.name
-		}
+		Authentication.info().then((data)=>{
+			if (!data) {
+			
+				this.ref("login-btn").classList.remove("d-none")
+			} else {
+				this.ref("dropdown1").classList.remove("d-none")
+				this.ref("username").text = data.name
+			}
+		})
 		if (mode == "dark") {
 			selector.byId("dark-mode").checked = true
 		} else {

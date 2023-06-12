@@ -1,6 +1,7 @@
 const BASE_LINK = window.location.origin
 import(`${BASE_LINK}/scripts/components/navbar.js`)
 
+let tool = getParameterByName("tool")
 let selector = new Turtle.Selector()
 let theme = new Turtle.Storage("theme")
 let mode = null
@@ -13,6 +14,23 @@ async function main() {
 		document.body.style.setProperty("--body-bg", "#ffffff")
 		document.body.style.setProperty("--body-color", "black")
 	}
+
+	import("https://webtools3257.github.io/scripts/components/ListTool.js")
+		.then(() => {
+			if (!tool) {
+				selector.byId("main").HTML = `
+					<list-tool></list-tool>
+				`
+			}else{
+				
+			}
+		})
+
+		.catch(() => {
+			selector.byId("main").HTML = `
+				<h2>Cannot load content </h2>
+			`
+		})
 }
 
 document.onreadystatechange = function() {
@@ -20,30 +38,8 @@ document.onreadystatechange = function() {
 		document.querySelector("body").style.visibility = "hidden";
 		document.querySelector("#loader").style.visibility = "visible";
 	} else {
-
 		document.querySelector("#loader").style.display = "none";
 		document.querySelector("body").style.visibility = "visible";
 		main()
 	}
 };
-
-function reveal() {
-  var reveals = document.querySelectorAll(".reveal");
-
-  for (var i = 0; i < reveals.length; i++) {
-    var windowHeight = window.innerHeight;
-    var elementTop = reveals[i].getBoundingClientRect().top;
-    var elementVisible = 150;
-
-    if (elementTop < windowHeight - elementVisible) {
-      reveals[i].classList.add("active");
-    } else {
-      reveals[i].classList.remove("active");
-    }
-  }
-}
-
-window.addEventListener("scroll", reveal);
-setTimeout(()=>{
-//	document.getElementById("l1").scrollIntoView()
-})

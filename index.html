@@ -9,12 +9,91 @@
 </head>
 
 <body>
+	<style>
+		section {
+			width: 100%;
+			min-height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-flow: column;
+		}
+
+		section h1 {
+			font-size: 3rem;
+			margin: 20px;
+		}
+
+		section h2 {
+			font-size: 40px;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+
+		@media (max-width: 900px) {
+			section h1 {
+				font-size: 2rem;
+				text-align: center;
+			}
+
+			section .text-container {
+				flex-direction: column;
+			}
+		}
+
+		.reveal {
+			position: relative;
+			animation-name:fadeOutLeft;
+			animation-duration: 0.5s;
+			visibility: hidden;
+			
+		}
+
+		.reveal.active {
+			visibility: visible;
+			transform: translateY(0);
+			animation-name:fadeInLeft;
+			animation-duration: 0.5s;
+			
+		}
+	</style>
 	<div id="loader" class="circle-loader"></div>
 	<page-navbar></page-navbar>
+	<br><br><br>
+	<section class="" style="margin-top:100px;" id="l1">
+		<h1 class="reveal active" style="margin: 0;">Discover and use our products </h1>
+		<br><br>
+		<div class="container">
+			<div class="reveal active d-flex flex-flow-col align-items-center justify-content-center p-10 text-align-center">
+				<img class="card-img-top" src="./Assets/images/turtle_icon.png" style="width: 300px; height: 300px;">
+				<h1>Turtle</h1>
+				<i>A simple library for building user interfaces </i>
+				<br>
+				<div class="d-flex justify-content-center">
+					<a class="btn link" href="#">View more</a>
+				</div>
+			</div>
+			<br>
+			<div class="reveal active d-flex flex-flow-col align-items-center justify-content-center p-10 text-align-center">
+				<img class="card-img-top" src="./Assets/images/turtle_icon.png" style="width: 300px; height: 300px;">
+				<h1>Turtle UI</h1>
+				<i>An extension of the Turtle library with pre-built components for faster UI building </i>
+				<br>
+				<div class="d-flex justify-content-center">
+					<a class="btn link" href="#">View more</a>
+				</div>
+			</div>
+			<br>
+
+		</div>
+	</section>
+
+
 	<script src="./scripts/core.js"></script>
 	<script src="./storage/libraries/turtle/turtle.min.js"></script>
 	<script src="./storage/libraries/turtleui/turtleui.min.js"></script>
 	<script src="./scripts/pages/home.js"></script>
 </body>
 
-</html>
+</html
