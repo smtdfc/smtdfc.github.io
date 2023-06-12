@@ -125,7 +125,7 @@ class Authentication {
 				if (!res.success) {
 					return null
 				} else {
-					return null
+					return res.data
 				}
 			}
 		}
