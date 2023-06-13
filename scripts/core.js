@@ -1,6 +1,10 @@
 const configs = {
-	base: "https://glen-oasis-approach.glitch.me"
+	base: "https://glen-oasis-approach.glitch.me",
+	theme: new Turtle.Storage("theme")
 }
+let BASE_LINK = window.location.origin
+let user = null
+let selector = new Turtle.Selector()
 
 function getParameterByName(name, url = window.location.href) {
 	name = name.replace(/[\[\]]/g, '\\$&');
@@ -157,7 +161,32 @@ class Authentication {
 			}
 		}
 	}
-	
+
+	static async logout() {
+		let res = await fetch(`${configs.base}/auth/logout`, {
+			method: "post",
+			body: JSON.stringify({
+				refreshToken:CookieManager.getCookie("rt")
+			})
+		})
+		let results = await res.json()
+		if (res.ok && results.status == "success") {
+			CookieManager.eraseCookie("at")
+			CookieManager.eraseCookie("rt")
+			return null
+		} else {
+			if (!res.ok) {
+				throw {
+					err: "Unable to send request to server !"
+				}
+			} else {
+				throw {
+					err: results.err
+				}
+			}
+		}
+	}
+
 	static async checkErrAndRetry(err, callback, ...args) {
 		let res = {
 			success: false,
@@ -176,4 +205,33 @@ class Authentication {
 			return res
 		}
 	}
+}
+
+document.onreadystatechange = function() {
+	if (document.readyState !== "complete") {
+		try {
+			document.querySelector("body").style.visibility = "hidden";
+			document.querySelector("#loader").style.visibility = "visible";
+		} catch {}
+	} else {
+		try {
+			document.querySelector("#loader").style.display = "none";
+			document.querySelector("body").style.visibility = "visible";
+		} catch {}
+		main()
+	}
+};
+
+async function main() {
+	mode = await configs.theme.get("mode")
+	if (mode == "dark") {
+		document.body.style.setProperty("--body-bg", "#1F1B24")
+		document.body.style.setProperty("--body-color", "white")
+	} else {
+		document.body.style.setProperty("--body-bg", "#ffffff")
+		document.body.style.setProperty("--body-color", "black")
+	}
+	user = await Authentication.info()
+	let event = new CustomEvent("pageready")
+	window.dispatchEvent(event)
 }

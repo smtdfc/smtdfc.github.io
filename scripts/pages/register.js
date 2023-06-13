@@ -1,76 +1,28 @@
-let selector = new Turtle.Selector()
-let theme = new Turtle.Storage("theme")
+import(`${BASE_LINK}/scripts/components/AuthPageNavbar.js`)
+
+let registerBtn = selector.byId("register-btn")
+let registerNote = selector.byId("register-note")
 let redirect = getParameterByName("redirect")
-
-selector.byId("dark-mode").on("change", async function(event) {
-	let value = event.target.checked
-	if (value) {
-		await theme.set("mode", "dark")
-		document.body.style.setProperty("--body-bg", "#1F1B24")
-		document.body.style.setProperty("--body-color", "white")
-	} else {
-		await theme.set("mode", "light")
-		document.body.style.setProperty("--body-bg", "#ffffff")
-		document.body.style.setProperty("--body-color", "black")
-	}
-})
-selector.byId("form-register").on("submit", async function(event) {
-	event.preventDefault()
-	let formRegister = selector.byId("form-register")
-	let inputs = formRegister.selectAll("input")
-	let username = inputs.index(0).val
-	let password = inputs.index(1).val
-	let confirmPassword = inputs.index(2).val
-	selector.byId("register-btn").disable = true
-	selector.byId("register-note").styles.display = "none"
-	if (password != confirmPassword) {
-		selector.byId("register-btn").disable = false
-		selector.byId("register-note").styles.display = "block"
-		selector.byId("register-note").text = "Password not match"
-		return
-	}
-
-	Authentication.register(username, password)
-		.then((results) => {
-			selector.byQuery(".overlay.main").classList.add("active")
-			selector.byQuery(".overlay.main").HTML = `
-					<div class="mt-75 d-flex justify-content-center"  >
-						<div class="dot-loader">
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</div>
-					
-					`
-			if (redirect == null) {
-				window.location = `./login.html?user=${username}`
-			} else {
-				window.location = redirect
-			}
+selector.byId("form-register").on("submit", function(e) {
+	e.preventDefault()
+	registerBtn.disable = true
+	registerNote.HTML = ""
+	registerNote.classList.add("d-none")
+	let inputs = selector.byId("form-register").selectAll("input")
+	let username = inputs.index(0)
+	let password = inputs.index(1)
+	Authentication.register(username.val, password.val)
+		.then(() => {
+			selector.byQuery(".main").classList.add("active")
+			window.location =`./login.html?user=${username.val}`
 		})
 
 		.catch((err) => {
-			selector.byId("register-note").styles.display = "block"
-			selector.byId("register-note").text = err.err.message
+			registerNote.classList.remove("d-none")
+			registerNote.text = err.err.message
 		})
 
 		.finally(() => {
-			selector.byId("register-btn").disable = false
+			registerBtn.disable = false
 		})
 })
-async function main() {
-	let mode = await theme.get("mode")
-	if (mode == "dark") {
-		selector.byId("dark-mode").checked = true
-		document.body.style.setProperty("--body-bg", "#1F1B24")
-		document.body.style.setProperty("--body-color", "white")
-	} else {
-		selector.byId("dark-mode").checked = false
-		document.body.style.setProperty("--body-bg", "#ffffff")
-		document.body.style.setProperty("--body-color", "black")
-	}
-}
-
-main()

@@ -4,23 +4,32 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Webtool</title>
+	<title>Logout</title>
 	<link rel="stylesheet" href="./storage/libraries/turtleui/turtleui.min.css">
 </head>
 
 <body>
+	<style>
+				.form-overlay {
+					background: black;
+					opacity: 0.5;
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					color: white;
+					z-index: 19;
+				}
+	</style>
 	<div id="loader" class="circle-loader"></div>
-	<page-navbar></page-navbar>
-	<br><br><br><br><br>
-	<div class="p-10" id="main">
-		<div class="d-flex justify-content-center">
-			<div class="circle-loader  "></div>
-		</div>
-	</div>
+			<div id="overlay1" class="form-overlay d-flex flex-flow-col align-items-center justify-content-center">
+				<div class="circle-loader loader-danger "></div>
+			</div>
 	<script src="./storage/libraries/turtle/turtle.min.js"></script>
 	<script src="./storage/libraries/turtleui/turtleui.min.js"></script>
 	<script src="./scripts/core.js"></script>
-	<script src="./scripts/pages/webtool.js"></script>
+	<script src="./scripts/pages/logout.js"></script>
 </body>
 
 </html>
