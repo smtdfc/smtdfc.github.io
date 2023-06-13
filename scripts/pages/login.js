@@ -34,7 +34,6 @@ selector.byId("form-login").on("submit",function(e){
 		})
 		
 		.catch((err)=>{
-		console.log(err);
 			loginNote.classList.remove("d-none")
 			loginNote.text = err.err.message
 		})

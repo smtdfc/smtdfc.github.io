@@ -11,6 +11,13 @@ selector.byId("form-register").on("submit", function(e) {
 	let inputs = selector.byId("form-register").selectAll("input")
 	let username = inputs.index(0)
 	let password = inputs.index(1)
+	let confirmPassword = inputs.index(2)
+	if(password.val != confirmPassword.val){
+		registerNote.classList.remove("d-none")
+		registerNote.text = "Password not match"
+		registerBtn.disable = false
+		return 
+	}
 	Authentication.register(username.val, password.val)
 		.then(() => {
 			selector.byQuery(".main").classList.add("active")
