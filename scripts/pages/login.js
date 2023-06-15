@@ -23,7 +23,7 @@ selector.byId("form-login").on("submit",function(e){
 	let inputs = selector.byId("form-login").selectAll("input")
 	let username = inputs.index(0)
 	let password = inputs.index(1)
-	Authentication.login(username.val,password.val)
+	app.auth.login(username.val,password.val)
 		.then(()=>{
 			selector.byQuery(".main").classList.add("active")
 			if(!redirect){
@@ -35,7 +35,7 @@ selector.byId("form-login").on("submit",function(e){
 		
 		.catch((err)=>{
 			loginNote.classList.remove("d-none")
-			loginNote.text = err.err.message
+			loginNote.text = err.message
 		})
 		
 		.finally(()=>{

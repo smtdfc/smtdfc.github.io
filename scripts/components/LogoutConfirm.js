@@ -19,7 +19,7 @@ window.Turtle.createComponent("logout-confirm", {
 	onRender: function() {
 		this.ref("logout").on("click", async function() {
 			try {
-				await Authentication.logout()
+				await app.auth.logout()
 				window.location ="./login.html"
 			} catch {
 				alert("An error occurred !")

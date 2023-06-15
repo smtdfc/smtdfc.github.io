@@ -24,7 +24,7 @@ window.Turtle.createComponent("user-avatar",{
 			this.ref("login-btn").classList.remove("d-none")
 		} else {
 			this.ref("dropdown1").classList.remove("d-none")
-			this.ref("username").text = user.name
+			this.ref("username").text = user.username
 		}
 	}
 })

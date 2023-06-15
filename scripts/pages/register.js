@@ -18,7 +18,7 @@ selector.byId("form-register").on("submit", function(e) {
 		registerBtn.disable = false
 		return 
 	}
-	Authentication.register(username.val, password.val)
+	app.auth.register(username.val, password.val)
 		.then(() => {
 			selector.byQuery(".main").classList.add("active")
 			window.location =`./login.html?user=${username.val}`
@@ -26,7 +26,7 @@ selector.byId("form-register").on("submit", function(e) {
 
 		.catch((err) => {
 			registerNote.classList.remove("d-none")
-			registerNote.text = err.err.message
+			registerNote.text = err.message
 		})
 
 		.finally(() => {
