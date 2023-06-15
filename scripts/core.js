@@ -46,7 +46,11 @@ async function main() {
 		document.body.style.setProperty("--body-bg", "#ffffff")
 		document.body.style.setProperty("--body-color", "black")
 	}
+	try{
 	user = await app.auth.getUser()
+	}catch(err){
+		user = null
+	}
 	let event = new CustomEvent("pageready")
 	window.dispatchEvent(event)
 }
