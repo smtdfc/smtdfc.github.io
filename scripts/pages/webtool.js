@@ -13,8 +13,8 @@ window.addEventListener("pageready", async function() {
 		`
 		let link = `${webtoolBase}/${topic}/tools/${tool}/main.js`
 		import(link)
-			.then(()=>{
-				
+			.then((fn)=>{
+				fn.initTool()
 			})
 			.catch((err)=>{
 				selector.byId("main").HTML = `
