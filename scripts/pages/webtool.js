@@ -2,6 +2,13 @@ import(`${BASE_LINK}/scripts/components/navbar.js`)
 import(`${webtoolBase}/scripts/components/ListTool.js`)
 let tool = getParameterByName("tool")
 let topic = getParameterByName("topic")
+
+function addScript(path) {
+	let scriptTag = document.createElement("script")
+	scriptTag.src = path
+	document.body.appendChild(scriptTag)
+}
+
 window.addEventListener("pageready", async function() {
 	import(`${BASE_LINK}/scripts/components/UserAvatar.js`)
 	selector.byId("main").HTML = ""
@@ -11,28 +18,31 @@ window.addEventListener("pageready", async function() {
 		selector.byId("main").HTML = `
 			<div class="circle-loader loader-sm "></div>
 		`
-		let link = `${webtoolBase}/${topic}/tools/${tool}/main.js`
-		import(link)
-			.then((fn)=>{
-				fn.initTool()
-			})
-			.catch((err)=>{
-				selector.byId("main").HTML = `
+		try {
+			let link = `${webtoolBase}/${topic}/tools/${tool}/main.js`
+			addScript(link)
+			document.title = `${topic}/${tool}`
+			selector.byId("main").HTML = `
+				<tool-display></tool-display>
+			`
+		} catch (err) {
+			selector.byId("main").HTML = `
 					<div class="text-align-center">
 						<h1>Oops!</h1>
 						<h3>An error occurred !</h3>
 						<br>
 						<a class="link btn btn-primary"  href="${BASE_LINK}/webtool.html">Return</a>
 					</div>
-				`
-			})
+			`
+		}
 	}
+
 })
 
 async function init() {
 	await getAllTool()
-	Object.keys(listTopic).forEach(topicID=>{
-		selector.byId("main").HTML+=`
+	Object.keys(listTopic).forEach(topicID => {
+		selector.byId("main").HTML += `
 			<list-tool topic="${topicID}" ></list-tool>
 		`
 	})
