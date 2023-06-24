@@ -109,7 +109,7 @@ class Authentication {
 		let tokens = response.data.tokens
 		this.user.username = info.username
 		this.user.rule = info.rule
-		CookieManager.setCookie("at", tokens.accessToken)
+		CookieManager.setCookie("at", tokens.accessToken,"0,0208333333")
 		CookieManager.setCookie("rt", tokens.refreshToken)
 		return this.user
 	}
@@ -130,7 +130,7 @@ class Authentication {
 		return {
 			username: username
 		}
-	}
+	}a
 
 	async getUser() {
 		try {

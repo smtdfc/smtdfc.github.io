@@ -17,6 +17,11 @@ function getParameterByName(name, url = window.location.href) {
 	return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+window.onoffline = function(){
+	document.querySelector("body").style.visibility = "visible";
+	document.querySelector("body").innerHTML = "No internet "
+}
+
 document.onreadystatechange = function() {
 	if (document.readyState !== "complete") {
 		try {
@@ -24,11 +29,15 @@ document.onreadystatechange = function() {
 			document.querySelector("#loader").style.visibility = "visible";
 		} catch {}
 	} else {
+		
 		try {
 			document.querySelector("#loader").style.display = "none";
 			document.querySelector("body").style.visibility = "visible";
 		} catch {}
-		main()
+		if(window.navigator.onLine)
+			main()
+		else
+			document.querySelector("body").innerHTML = "No internet "
 	}
 };
 
