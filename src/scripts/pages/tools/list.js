@@ -1,23 +1,23 @@
 const base = "https://smtdfcwebtools.github.io"
 async function loadSource() {
   let response = await axios({
-    url: `${base}/webtools/sources.json`,
+    url: `${base}/tools/sources.json`,
   })
   return response.data.sources
 }
 
 async function loadContent(source) {
   let response = await axios({
-    url: `${source.repository}/list.json`,
+    url: `${base}/${source.repository}/list.json`,
   })
   return response.data.list
 }
 
-Turtle.component("webtools-list-page", function($) {
+Turtle.component("tools-list-page", function($) {
   let tools = [{ tag: "shsh" }]
   $.state = {}
   $.tags = {}
-  $.addTag = function(name, source,open = false) {
+  $.addTag = function(name, source, open = false) {
     let id = generateKey("tag_")
     let div = document.createElement("div")
     div.className = `accordion ${open ? "active":""}`
@@ -26,20 +26,27 @@ Turtle.component("webtools-list-page", function($) {
       <div class="accordion-header" data-toggle="accordion" data-accordion="#${id}" >${name}</div>
       <div class="fade accordion-body"></div>
     `
+    $.tags[name] = div.querySelector(".accordion-body")
+
     div.addEventListener("click", function() {
       if (!$.states[name]) {
         $.states[name] = true
+        $.tags[name].innerHTML = `<div class="text-align-center">loading...</div>`
         loadContent(source)
           .then((list) => {
+            $.tags[name].innerHTML = ""//`<div class="text-align-center">No tools</div>`
             list.forEach(info => {
               $.addItem(name, info)
             })
+          })
+
+          .catch((err) => {
+            $.tags[name].innerHTML = `<div class="text-align-center">No tools</div>`
           })
       }
     })
     $.refs.list.appendChild(div)
     $.states[name] = false
-    $.tags[name] = div.querySelector(".accordion-body")
   }
 
   $.addItem = function(tag, item) {
@@ -60,17 +67,17 @@ Turtle.component("webtools-list-page", function($) {
   $.onRender = function() {
     loadSource()
       .then((sources) => {
-        sources.forEach((source)=>{
+        sources.forEach((source) => {
           $.addTag(source.name, source)
         })
       })
       .catch((err) => {
         app.ui.addMsg("Cannot load content ", "error", 4000)
       })
-      .finally(()=>{
+      .finally(() => {
         hideLoader()
       })
-    
+
   }
 
   return `

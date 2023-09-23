@@ -1,5 +1,5 @@
 import {help_routes} from "./routes/help.routes.js"
-import {webtools_routes} from "./routes/webtools.routes.js"
+import {tools_routes} from "./routes/tools.routes.js"
 const router = app.use(Turtle.RouterModule)
 
 router.define({
@@ -10,7 +10,7 @@ router.define({
       component:"home-page"
     },
     ...help_routes,
-    ...webtools_routes
+    ...tools_routes
   }
 })
 

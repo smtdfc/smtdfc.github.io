@@ -12,7 +12,7 @@ Turtle.component("main-navbar", function($) {
         <ul class="navbar-menu">
           <li><a href="#/">Home</a></li>
           <li><a href="#/blog">Blog</a></li>
-          <li><a href="#/webtools/list">Webtools</a></li>
+          <li><a href="#/tools/list">Tools</a></li>
           <li><a href="#/help/report">Report</a></li>
           <li><a href="#/help/contact">Contact</a></li>
         </ul>
