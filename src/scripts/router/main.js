@@ -1,13 +1,16 @@
 import {help_routes} from "./routes/help.routes.js"
+import {webtools_routes} from "./routes/webtools.routes.js"
 const router = app.use(Turtle.RouterModule)
 
 router.define({
   element:"#contents",
   routes:{
     "/":{
+      title:"Home",
       component:"home-page"
     },
-    ...help_routes
+    ...help_routes,
+    ...webtools_routes
   }
 })
 

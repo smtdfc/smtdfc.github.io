@@ -21,6 +21,10 @@ function hideLoader(){
   document.querySelector("#main-loader").classList.add("d-none")
 }
 
+function generateKey(prefix="_"){
+  return `${prefix}${(Math.floor(Math.random()*1000000)*Date.now()).toString(16)}`
+}
+
 window.addEventListener("online", function(e) {
   app.ui.addMsg(`
   <div class="d-flex align-items-center">
