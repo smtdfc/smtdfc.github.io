@@ -1,7 +1,7 @@
 const base = "https://smtdfcwebtools.github.io"
 async function loadSource() {
   let response = await axios({
-    url: `${base}/webtools/data/sources.json`,
+    url: `${base}/webtools/sources.json`,
   })
   return response.data.sources
 }
@@ -59,8 +59,10 @@ Turtle.component("webtools-list-page", function($) {
   showLoader()
   $.onRender = function() {
     loadSource()
-      .then((source) => {
-        $.addTag(source.name, source)
+      .then((sources) => {
+        sources.forEach((source)=>{
+          $.addTag(source.name, source)
+        })
       })
       .catch((err) => {
         app.ui.addMsg("Cannot load content ", "error", 4000)
