@@ -17,7 +17,7 @@ Turtle.component("help-report-page",function($){
         <h1>Thanks you !</h1>
         <h3>Your report has been sent to us successfully! Thank you for reporting this issue to us!</h3>
         <br><br>
-        <a class="btn " href="#/">Goto home page</a>
+        <a class="btn btn-primary" href="#/">Goto home page</a>
       </div>
     </div>
     <h1>Error report </h1>
@@ -25,7 +25,7 @@ Turtle.component("help-report-page",function($){
     <br>
     <form class="fade" ${Turtle.events({submit:$.onSubmit})} >
       <input type="text" name="reportid" value="${(Date.now()*Math.floor((Math.random()*1000))).toString(36)}" hidden>
-      <div class="field">
+      <div class="form-group">
         <label class="form-label">Types </label>
         <select class="form-select" style="width:90%" >
           <option value="E01">Page failed to load </option>
@@ -34,7 +34,7 @@ Turtle.component("help-report-page",function($){
           <option value="E04">Other </option>
         </select>
       </div>
-      <div class="field">
+      <div class="form-group">
         <label class="form-label">Description :</label>
         <textarea class="form-input" style="min-width:90%; height:10vh;"></textarea>
       </div>
