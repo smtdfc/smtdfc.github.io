@@ -3,7 +3,7 @@ Turtle.component("main-navbar", function($) {
     <div class="d-none pos-absolute line-loader loader-md loader-info" style="top:0; z-index:10000;" id="main-loader" >
       <span></span>
     </div>
-   <nav class="navbar active" id="main-navbar">  
+   <nav class="navbar" id="main-navbar">  
      <div class="navbar-brand">
        <h3>smtdfc</h3>
      </div>
